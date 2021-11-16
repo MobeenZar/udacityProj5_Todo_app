@@ -16,13 +16,16 @@ export const handler = middy(
 
     logger.info(`Received request for creating todo item for user ${userId}...`)
 
-    const item = createTodo(newTodo, userId)
-
+    const item = await createTodo(newTodo, userId)
+    
+    let result = JSON.stringify({
+      item
+    });
+    
+    logger.info(`Create To do result:  ${result}...`)
     return {
       statusCode: 201,
-      body: JSON.stringify({
-        item
-      })
+      body: result
     }
   }
 )
@@ -32,3 +35,8 @@ handler.use(
     credentials: true
   })
 )
+
+
+//name: string
+//  dueDate: string
+//body: "{name: 'myTask', dueDate: '11/10/2021'}"
